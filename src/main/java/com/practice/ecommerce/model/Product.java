@@ -1,6 +1,7 @@
 package com.practice.ecommerce.model;
 
 public class Product {
+
     private final int id;
     private final String name;
     private final double price;
