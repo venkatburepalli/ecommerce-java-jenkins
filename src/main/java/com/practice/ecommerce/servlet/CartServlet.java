@@ -4,12 +4,12 @@ import com.practice.ecommerce.model.CartItem;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.service.ProductService;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -43,7 +43,8 @@ public class CartServlet extends HttpServlet {
             HttpServletResponse response)
             throws IOException {
 
-        HttpSession session = request.getSession();
+        HttpSession session =
+                request.getSession();
 
         Map<Integer, CartItem> cart =
                 getCart(session);
@@ -62,22 +63,15 @@ public class CartServlet extends HttpServlet {
                     productService.getProductById(productId);
 
             if (product == null) {
+
                 response.sendRedirect(
                         request.getContextPath()
                                 + "/products"
                 );
+
                 return;
             }
 
-            /*
-             * ADD PRODUCT
-             *
-             * If product is not already in cart:
-             * quantity = 1
-             *
-             * If product already exists:
-             * quantity + 1
-             */
             if ("add".equals(action)) {
 
                 CartItem item =
@@ -98,9 +92,6 @@ public class CartServlet extends HttpServlet {
                 }
             }
 
-            /*
-             * UPDATE QUANTITY
-             */
             else if ("update".equals(action)) {
 
                 int quantity =
@@ -108,12 +99,6 @@ public class CartServlet extends HttpServlet {
                                 request.getParameter("quantity")
                         );
 
-                /*
-                 * Quantity cannot be negative.
-                 *
-                 * If quantity is 0,
-                 * remove product from cart.
-                 */
                 if (quantity <= 0) {
 
                     cart.remove(productId);
@@ -137,9 +122,6 @@ public class CartServlet extends HttpServlet {
                 }
             }
 
-            /*
-             * REMOVE PRODUCT
-             */
             else if ("remove".equals(action)) {
 
                 cart.remove(productId);
@@ -147,7 +129,7 @@ public class CartServlet extends HttpServlet {
 
         } catch (NumberFormatException e) {
 
-            // Ignore invalid product ID or quantity
+            // Ignore invalid input
         }
 
         response.sendRedirect(
