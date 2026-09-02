@@ -6,6 +6,7 @@ public class CartItem {
     private int quantity;
 
     public CartItem(Product product, int quantity) {
+
         this.product = product;
         this.quantity = Math.max(0, quantity);
     }
@@ -19,10 +20,12 @@ public class CartItem {
     }
 
     public void setQuantity(int quantity) {
+
         this.quantity = Math.max(0, quantity);
     }
 
     public double getSubtotal() {
+
         return product.getPrice() * quantity;
     }
 }
